@@ -1,10 +1,7 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttercrypto/data/crypto_data.dart';
 import 'package:fluttercrypto/modules/crypto_presenter.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -37,40 +34,40 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
         ),
         body: _isLoading
             ? new Center(
-                child: new CircularProgressIndicator(),
-              )
+          child: new CircularProgressIndicator(),
+        )
             : _cryptoWidget());
   }
 
   Widget _cryptoWidget() {
     return new Container(
         child: new Column(
-      children: <Widget>[
-        new Flexible(
-          child: new ListView.builder(
-            itemCount: _currencies.length,
-            itemBuilder: (BuildContext context, int index) {
-              final Crypto currency = _currencies[index];
-              final MaterialColor color = _colors[index % _colors.length];
-
-              return _getListItemUi(currency, color);
-            },
-          ),
-        )
-      ],
-    ));
+          children: <Widget>[
+            new Flexible(
+              child: new ListView.builder(
+                itemCount: _currencies.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final int i = index ~/ 2;
+                  final Crypto currency = _currencies[i];
+                  final MaterialColor color = _colors[i % _colors.length];
+                  if (index.isOdd) {
+                    return new Divider();
+                  }
+                  return _getListItemUi(currency, color);
+                },
+              ),
+            )
+          ],
+        ));
   }
 
   ListTile _getListItemUi(Crypto currency, MaterialColor color) {
     return new ListTile(
-      leading: new CircleAvatar(
-        backgroundColor: color,
-        child: new Text(currency.name[0]),
-      ),
+      leading: new Image.network("http://cryptoicons.co/32@2x/color/"+currency.symbol.toLowerCase()+"@2x.png"),
       title: new Text(currency.name,
           style: new TextStyle(fontWeight: FontWeight.bold)),
       subtitle:
-          _getSubtitleText(currency.price_usd, currency.percent_change_1h),
+      _getSubtitleText(currency.price_usd, currency.percent_change_1h),
       isThreeLine: true,
     );
   }
