@@ -36,34 +36,32 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
             ? new Center(
           child: new CircularProgressIndicator(),
         )
-            : _cryptoWidget());
+            :new ListView.builder(
+          itemCount: _currencies.length,
+          itemBuilder: (BuildContext context,int index)=>
+              _getRowWithDivider(index),)
+    );
   }
 
-  Widget _cryptoWidget() {
-    return new Container(
-        child: new Column(
-          children: <Widget>[
-            new Flexible(
-              child: new ListView.builder(
-                itemCount: _currencies.length,
-                itemBuilder: (BuildContext context, int index) {
-                  final int i = index ~/ 2;
-                  final Crypto currency = _currencies[i];
-                  final MaterialColor color = _colors[i % _colors.length];
-                  if (index.isOdd) {
-                    return new Divider();
-                  }
-                  return _getListItemUi(currency, color);
-                },
-              ),
-            )
-          ],
-        ));
+  Widget _getRowWithDivider(int i) {
+    final Crypto currency = _currencies[i];
+    var children = <Widget>[
+      new Padding(
+          padding: new EdgeInsets.all(10.0),
+          child: _getListItemUi(currency)
+      ),
+      new Divider(height: 5.0),
+    ];
+
+    return new Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: children,
+    );
   }
 
-  ListTile _getListItemUi(Crypto currency, MaterialColor color) {
+  ListTile _getListItemUi(Crypto currency) {
     return new ListTile(
-      leading: new Image.network("http://cryptoicons.co/32@2x/color/"+currency.symbol.toLowerCase()+"@2x.png"),
+      leading: new FadeInImage(placeholder: new AssetImage('assets/2.0x/stars.png'), image: new NetworkImage("http://cryptoicons.co/32@2x/color/"+currency.symbol.toLowerCase()+"@2x.png")),
       title: new Text(currency.name,
           style: new TextStyle(fontWeight: FontWeight.bold)),
       subtitle:
