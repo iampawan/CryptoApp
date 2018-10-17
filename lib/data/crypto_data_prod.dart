@@ -2,21 +2,24 @@ import 'dart:async';
 import 'dart:convert';
 
 import 'package:fluttercrypto/data/crypto_data.dart';
+import 'package:fluttercrypto/data/cryptov2_data.dart';
 import 'package:http/http.dart' as http;
 
 class ProdCryptoRepository implements CryptoRepository {
-  String cryptoUrl = "https://api.coinmarketcap.com/v1/ticker/?limit=50";
+  String cryptoUrl =
+      "https://api.coinmarketcap.com/v2/ticker/?start=1&limit=50&sort=id&structure=array";
   @override
-  Future<List<Crypto>> fetchCurrencies() async {
-    // TODO: implement fetchCurrencies
+  Future<CryptoV2> fetchCurrencies() async {
     http.Response response = await http.get(cryptoUrl);
-    final List responseBody = jsonDecode(response.body);
+    final Map<String, dynamic> responseBody = jsonDecode(response.body);
     final statusCode = response.statusCode;
     if (statusCode != 200 || responseBody == null) {
       throw new FetchDataException(
           "An error ocurred : [Status Code : $statusCode]");
     }
 
-    return responseBody.map((c) => new Crypto.fromMap(c)).toList();
+    var res = CryptoV2.fromJson(responseBody);
+
+    return res;
   }
 }

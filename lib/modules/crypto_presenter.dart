@@ -1,9 +1,10 @@
 import 'package:fluttercrypto/data/crypto_data.dart';
+import 'package:fluttercrypto/data/cryptov2_data.dart';
 import 'package:fluttercrypto/dependency_injection.dart';
 
 abstract class CryptoListViewContract {
-  void onLoadCryptoComplete(List<Crypto> items);
-  void onLoadCryptoError();
+  void onLoadCryptoComplete(CryptoV2 items);
+  void onLoadCryptoError(String error);
 }
 
 class CryptoListPresenter {
@@ -18,6 +19,6 @@ class CryptoListPresenter {
     _repository
         .fetchCurrencies()
         .then((c) => _view.onLoadCryptoComplete(c))
-        .catchError((onError) => _view.onLoadCryptoError());
+        .catchError((onError) => _view.onLoadCryptoError(onError.toString()));
   }
 }

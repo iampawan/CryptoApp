@@ -1,6 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttercrypto/data/crypto_data.dart';
+import 'package:fluttercrypto/data/cryptov2_data.dart';
 import 'package:fluttercrypto/modules/crypto_presenter.dart';
 
 class HomePage extends StatefulWidget {
@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> implements CryptoListViewContract {
   CryptoListPresenter _presenter;
-  List<Crypto> _currencies;
+  List<Data> _currencies;
   bool _isLoading;
   final List<MaterialColor> _colors = [Colors.blue, Colors.indigo, Colors.red];
 
@@ -47,10 +47,10 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
           child: new ListView.builder(
             itemCount: _currencies.length,
             itemBuilder: (BuildContext context, int index) {
-              final Crypto currency = _currencies[index];
+              final Data currency = _currencies[index];
               final MaterialColor color = _colors[index % _colors.length];
 
-              return _getListItemUi(currency, color);
+              return _getListItemUi(currency, color, index);
             },
           ),
         )
@@ -58,7 +58,7 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
     ));
   }
 
-  ListTile _getListItemUi(Crypto currency, MaterialColor color) {
+  ListTile _getListItemUi(Data currency, MaterialColor color, int index) {
     return new ListTile(
       leading: new CircleAvatar(
         backgroundColor: color,
@@ -66,7 +66,8 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
       ),
       title: new Text(currency.name,
           style: new TextStyle(fontWeight: FontWeight.bold)),
-      subtitle: _getSubtitleText(currency.priceUsd, currency.percentChange1h),
+      subtitle: _getSubtitleText(currency.quotes.uSD.price.toString(),
+          currency.quotes.uSD.percentChange1h.toString()),
       isThreeLine: true,
     );
   }
@@ -92,17 +93,17 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
   }
 
   @override
-  void onLoadCryptoComplete(List<Crypto> items) {
+  void onLoadCryptoComplete(CryptoV2 items) {
     // TODO: implement onLoadCryptoComplete
 
     setState(() {
-      _currencies = items;
+      _currencies = items.data;
       _isLoading = false;
     });
   }
 
   @override
-  void onLoadCryptoError() {
-    // TODO: implement onLoadCryptoError
+  void onLoadCryptoError(String error) {
+    print(error);
   }
 }

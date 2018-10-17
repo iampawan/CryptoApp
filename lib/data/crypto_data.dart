@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:fluttercrypto/data/cryptov2_data.dart';
+
 class Crypto {
   String name;
   String priceUsd;
@@ -14,7 +16,7 @@ class Crypto {
 }
 
 abstract class CryptoRepository {
-  Future<List<Crypto>> fetchCurrencies();
+  Future<CryptoV2> fetchCurrencies();
 }
 
 class FetchDataException implements Exception {
