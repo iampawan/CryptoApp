@@ -11,7 +11,7 @@ class MockCryptoRepository implements CryptoRepository {
 }
 
 var currencies = <Crypto>[
-  new Crypto(name: "Bitcoin", price_usd: "800.60", percent_change_1h: "-0.7"),
-  new Crypto(name: "Ethereum", price_usd: "650.30", percent_change_1h: "0.85"),
-  new Crypto(name: "Ripple", price_usd: "300.00", percent_change_1h: "-0.25"),
+  new Crypto(name: "Bitcoin", priceUsd: "800.60", percentChange1h: "-0.7"),
+  new Crypto(name: "Ethereum", priceUsd: "650.30", percentChange1h: "0.85"),
+  new Crypto(name: "Ripple", priceUsd: "300.00", percentChange1h: "-0.25"),
 ];

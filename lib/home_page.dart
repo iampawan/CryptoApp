@@ -1,10 +1,7 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:fluttercrypto/data/crypto_data.dart';
 import 'package:fluttercrypto/modules/crypto_presenter.dart';
-import 'package:http/http.dart' as http;
-import 'package:flutter/material.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -69,8 +66,7 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
       ),
       title: new Text(currency.name,
           style: new TextStyle(fontWeight: FontWeight.bold)),
-      subtitle:
-          _getSubtitleText(currency.price_usd, currency.percent_change_1h),
+      subtitle: _getSubtitleText(currency.priceUsd, currency.percentChange1h),
       isThreeLine: true,
     );
   }

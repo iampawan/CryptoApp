@@ -2,15 +2,15 @@ import 'dart:async';
 
 class Crypto {
   String name;
-  String price_usd;
-  String percent_change_1h;
+  String priceUsd;
+  String percentChange1h;
 
-  Crypto({this.name, this.price_usd, this.percent_change_1h});
+  Crypto({this.name, this.priceUsd, this.percentChange1h});
 
   Crypto.fromMap(Map<String, dynamic> map)
       : name = map['name'],
-        price_usd = map['price_usd'],
-        percent_change_1h = map['percent_change_1h'];
+        priceUsd = map['price_usd'],
+        percentChange1h = map['percent_change_1h'];
 }
 
 abstract class CryptoRepository {

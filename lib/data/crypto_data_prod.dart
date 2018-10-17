@@ -1,7 +1,8 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:http/http.dart' as http;
+
 import 'package:fluttercrypto/data/crypto_data.dart';
+import 'package:http/http.dart' as http;
 
 class ProdCryptoRepository implements CryptoRepository {
   String cryptoUrl = "https://api.coinmarketcap.com/v1/ticker/?limit=50";
@@ -9,7 +10,7 @@ class ProdCryptoRepository implements CryptoRepository {
   Future<List<Crypto>> fetchCurrencies() async {
     // TODO: implement fetchCurrencies
     http.Response response = await http.get(cryptoUrl);
-    final List responseBody = JSON.decode(response.body);
+    final List responseBody = jsonDecode(response.body);
     final statusCode = response.statusCode;
     if (statusCode != 200 || responseBody == null) {
       throw new FetchDataException(
