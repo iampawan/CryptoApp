@@ -1,9 +1,6 @@
-import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/foundation.dart';
-import 'package:fluttercrypto/dependency_injection.dart';
-import 'package:http/http.dart' as http;
 import 'package:flutter/material.dart';
+import 'package:fluttercrypto/dependency_injection.dart';
 import 'package:fluttercrypto/home_page.dart';
 
 void main() async {
@@ -17,7 +14,8 @@ class MyApp extends StatelessWidget {
     return new MaterialApp(
       debugShowCheckedModeBanner: false,
       theme: new ThemeData(
-          primarySwatch: Colors.pink,
+          fontFamily: "GoogleSans",
+          primarySwatch: Colors.red,
           primaryColor: defaultTargetPlatform == TargetPlatform.iOS
               ? Colors.grey[100]
               : null),

@@ -7,7 +7,7 @@ import 'package:http/http.dart' as http;
 
 class ProdCryptoRepository implements CryptoRepository {
   String cryptoUrl =
-      "https://api.coinmarketcap.com/v2/ticker/?start=1&limit=50&sort=id&structure=array";
+      "https://api.coinmarketcap.com/v2/ticker/?start=1&limit=20&sort=rank&structure=array";
   @override
   Future<CryptoV2> fetchCurrencies() async {
     http.Response response = await http.get(cryptoUrl);

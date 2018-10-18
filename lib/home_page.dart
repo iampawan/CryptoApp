@@ -1,4 +1,3 @@
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:fluttercrypto/data/cryptov2_data.dart';
 import 'package:fluttercrypto/modules/crypto_presenter.dart';
@@ -12,6 +11,7 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
   CryptoListPresenter _presenter;
   List<Data> _currencies;
   bool _isLoading;
+  BuildContext _context;
   final List<MaterialColor> _colors = [Colors.blue, Colors.indigo, Colors.red];
 
   _HomePageState() {
@@ -27,10 +27,16 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
 
   @override
   Widget build(BuildContext context) {
+    _context = context;
     return new Scaffold(
         appBar: new AppBar(
-          title: new Text("Crypto App"),
-          elevation: defaultTargetPlatform == TargetPlatform.iOS ? 0.0 : 5.0,
+          backgroundColor: Colors.white,
+          centerTitle: true,
+          title: new Text(
+            "Crypto App",
+            style: TextStyle(color: Colors.black, fontWeight: FontWeight.bold),
+          ),
+          elevation: 0.0,
         ),
         body: _isLoading
             ? new Center(
@@ -40,35 +46,134 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
   }
 
   Widget _cryptoWidget() {
-    return new Container(
-        child: new Column(
+    return Column(
       children: <Widget>[
-        new Flexible(
-          child: new ListView.builder(
+        Card(
+          elevation: 0.0,
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Text(
+                  "Favourite Currencies",
+                  style: TextStyle(
+                      color: Colors.black54,
+                      fontSize: 15.0,
+                      fontWeight: FontWeight.bold),
+                ),
+                ListTile(
+                  leading: Image.asset(
+                    "assets/icons/coin_btc.png",
+                    width: 30.0,
+                    height: 30.0,
+                  ),
+                  title: Text(
+                    _currencies[0].name,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(_currencies[0].symbol),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        "\$${_currencies[0].quotes.uSD.price.toStringAsFixed(2)}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "${_currencies[0].quotes.uSD.percentChange1h.toString()}%",
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                      )
+                    ],
+                  ),
+                ),
+                ListTile(
+                  leading: Image.asset(
+                    "assets/icons/coin_eth.png",
+                    width: 30.0,
+                    height: 30.0,
+                  ),
+                  title: Text(
+                    _currencies[1].name,
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(_currencies[1].symbol),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        "\$${_currencies[1].quotes.uSD.price.toStringAsFixed(2)}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "${_currencies[1].quotes.uSD.percentChange1h.toString()}%",
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                      )
+                    ],
+                  ),
+                ),
+                ListTile(
+                  leading: Image.asset(
+                    "assets/icons/coin_xrp.png",
+                    width: 30.0,
+                    height: 30.0,
+                  ),
+                  title: Text(
+                    "Ripple",
+                    style: TextStyle(fontWeight: FontWeight.bold),
+                  ),
+                  subtitle: Text(_currencies[2].symbol),
+                  trailing: Column(
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: <Widget>[
+                      Text(
+                        "\$${_currencies[2].quotes.uSD.price.toStringAsFixed(2)}",
+                        style: TextStyle(fontWeight: FontWeight.bold),
+                      ),
+                      Text(
+                        "${_currencies[2].quotes.uSD.percentChange1h.toString()}%",
+                        style: TextStyle(fontWeight: FontWeight.normal),
+                      )
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          child: ListView.builder(
             itemCount: _currencies.length,
             itemBuilder: (BuildContext context, int index) {
               final Data currency = _currencies[index];
               final MaterialColor color = _colors[index % _colors.length];
-
-              return _getListItemUi(currency, color, index);
+              if (index > 2) return _getListItemUi(currency, color, index);
             },
           ),
         )
       ],
-    ));
+    );
   }
 
-  ListTile _getListItemUi(Data currency, MaterialColor color, int index) {
-    return new ListTile(
-      leading: new CircleAvatar(
-        backgroundColor: color,
-        child: new Text(currency.name[0]),
+  Card _getListItemUi(Data currency, MaterialColor color, int index) {
+    return Card(
+      elevation: 0.0,
+      child: new ListTile(
+        leading: new CircleAvatar(
+          radius: 20.0,
+          backgroundColor: Colors.grey[100],
+          child: new Text(
+            currency.name[0],
+            style: TextStyle(color: Colors.black),
+          ),
+        ),
+        title: new Text(currency.name,
+            style: new TextStyle(fontWeight: FontWeight.bold)),
+        subtitle: _getSubtitleText(currency.quotes.uSD.price.toString(),
+            currency.quotes.uSD.percentChange1h.toString()),
+        isThreeLine: true,
       ),
-      title: new Text(currency.name,
-          style: new TextStyle(fontWeight: FontWeight.bold)),
-      subtitle: _getSubtitleText(currency.quotes.uSD.price.toString(),
-          currency.quotes.uSD.percentChange1h.toString()),
-      isThreeLine: true,
     );
   }
 
@@ -94,8 +199,6 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
 
   @override
   void onLoadCryptoComplete(CryptoV2 items) {
-    // TODO: implement onLoadCryptoComplete
-
     setState(() {
       _currencies = items.data;
       _isLoading = false;
