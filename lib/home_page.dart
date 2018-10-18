@@ -148,7 +148,12 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
             itemBuilder: (BuildContext context, int index) {
               final Data currency = _currencies[index];
               final MaterialColor color = _colors[index % _colors.length];
-              if (index > 2) return _getListItemUi(currency, color, index);
+              if (index > 2) {
+                return _getListItemUi(currency, color, index);
+              } else {
+                return Container();
+              }
+              ;
             },
           ),
         )
@@ -170,32 +175,34 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
         ),
         title: new Text(currency.name,
             style: new TextStyle(fontWeight: FontWeight.bold)),
-        subtitle: _getSubtitleText(currency.quotes.uSD.price.toString(),
-            currency.quotes.uSD.percentChange1h.toString()),
-        isThreeLine: true,
+        subtitle: Text(
+          "\$${currency.quotes.uSD.price.toString()}",
+          style: TextStyle(color: Colors.black87),
+        ),
+        trailing: Text("${currency.quotes.uSD.percentChange1h.toString()}%"),
       ),
     );
   }
 
-  Widget _getSubtitleText(String priceUSD, String percentageChange) {
-    TextSpan priceTextWidget = new TextSpan(
-        text: "\$$priceUSD\n", style: new TextStyle(color: Colors.black));
-    String percentageChangeText = "1 hour: $percentageChange%";
-    TextSpan percentageChangeTextWidget;
-
-    if (double.parse(percentageChange) > 0) {
-      percentageChangeTextWidget = new TextSpan(
-          text: percentageChangeText,
-          style: new TextStyle(color: Colors.green));
-    } else {
-      percentageChangeTextWidget = new TextSpan(
-          text: percentageChangeText, style: new TextStyle(color: Colors.red));
-    }
-
-    return new RichText(
-        text: new TextSpan(
-            children: [priceTextWidget, percentageChangeTextWidget]));
-  }
+//  Widget _getSubtitleText(String priceUSD, String percentageChange) {
+//    TextSpan priceTextWidget = new TextSpan(
+//        text: "\$$priceUSD\n", style: new TextStyle(color: Colors.black));
+//    String percentageChangeText = "1 hour: $percentageChange%";
+//    TextSpan percentageChangeTextWidget;
+//
+//    if (double.parse(percentageChange) > 0) {
+//      percentageChangeTextWidget = new TextSpan(
+//          text: percentageChangeText,
+//          style: new TextStyle(color: Colors.green));
+//    } else {
+//      percentageChangeTextWidget = new TextSpan(
+//          text: percentageChangeText, style: new TextStyle(color: Colors.red));
+//    }
+//
+//    return new RichText(
+//        text: new TextSpan(
+//            children: [priceTextWidget, percentageChangeTextWidget]));
+//  }
 
   @override
   void onLoadCryptoComplete(CryptoV2 items) {
