@@ -63,7 +63,6 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
 
   ListTile _getListItemUi(Crypto currency, MaterialColor color) {
     return new ListTile(
-      leading: new Image.network("http://cryptoicons.co/32@2x/color/"+currency.symbol.toLowerCase()+"@2x.png"),
       title: new Text(currency.name,
           style: new TextStyle(fontWeight: FontWeight.bold)),
       subtitle:
