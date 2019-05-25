@@ -9,7 +9,7 @@ class ProdCryptoRepository implements CryptoRepository {
   Future<List<Crypto>> fetchCurrencies() async {
     // TODO: implement fetchCurrencies
     http.Response response = await http.get(cryptoUrl);
-    final List responseBody = JSON.decode(response.body);
+    final List responseBody = json.decode(response.body);
     final statusCode = response.statusCode;
     if (statusCode != 200 || responseBody == null) {
       throw new FetchDataException(
