@@ -61,7 +61,7 @@ class _HomePageState extends State<HomePage> implements CryptoListViewContract {
 
   ListTile _getListItemUi(Crypto currency) {
     return new ListTile(
-      leading: new FadeInImage(placeholder: new AssetImage('assets/2.0x/stars.png'), image: new NetworkImage("http://cryptoicons.co/32@2x/color/"+currency.symbol.toLowerCase()+"@2x.png")),
+      leading: new FadeInImage(placeholder: new AssetImage('assets/2.0x/stars.png'), image: new NetworkImage("https://cdn.jsdelivr.net/gh/atomiclabs/cryptocurrency-icons@9867bdb19da14e63ffbe63805298fa60bf255cdd/32@2x/icon/" + currency.symbol.toLowerCase() +"@2x.png")),
       title: new Text(currency.name,
           style: new TextStyle(fontWeight: FontWeight.bold)),
       subtitle:
